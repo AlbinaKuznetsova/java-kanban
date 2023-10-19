@@ -2,25 +2,20 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Epic extends Task {
-    public ArrayList<Integer> subtasksId; // Список id подзадач эпика
+    private ArrayList<Integer> subtasksId; // Список id подзадач эпика
 
     public Epic(String name, String description) {
         super(name, description);
         subtasksId = new ArrayList<>();
     }
 
-    public Epic(String name, String description, ArrayList<Integer> subtasksId) {
-        super(name, description);
-        this.subtasksId = subtasksId;
-    }
-
     @Override
     public String toString() {
         return "Epic{" +
-                "subtasksId=" + subtasksId +
+                "id=" + id +
+                ", subtasksId=" + subtasksId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", id=" + id +
                 ", status='" + status + '\'' +
                 '}';
     }
@@ -37,5 +32,9 @@ public class Epic extends Task {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), subtasksId);
+    }
+
+    public ArrayList<Integer> getSubtasksId() {
+        return subtasksId;
     }
 }

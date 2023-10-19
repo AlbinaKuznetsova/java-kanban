@@ -1,36 +1,25 @@
 import java.util.Objects;
 
 public class Task {
-    public String name;
-    public String description;
-    public Integer id;
+    protected Integer id;
+    protected String name;
+    protected String description;
     protected String status; // NEW, IN_PROGRESS, DONE
-
-    public Task(String name, String description, String status) {
-        this.name = name;
-        this.description = description;
-        this.id = id;
-        this.status = status;
-    }
+    private static int count = 0;
 
     public Task(String name, String description) {
         this.name = name;
         this.description = description;
-    }
-
-    public Task(String name, String description, Integer id, String status) {
-        this.name = name;
-        this.description = description;
-        this.id = id;
-        this.status = status;
+        this.id = generateId();
+        this.status = "NEW";
     }
 
     @Override
     public String toString() {
         return "Task{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", id=" + id +
                 ", status='" + status + '\'' +
                 '}';
     }
@@ -63,5 +52,9 @@ public class Task {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    Integer generateId() {
+        return ++count;
     }
 }
