@@ -5,10 +5,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-         /* Проблема с обновлением статуса эпика была не в методе setEpicStatus, а в том, что при создании нового
-            сабтаска я не обновляла список subtasksId в эпике, исправила */
-
-        /* Manager manager = new Manager();
+        Manager manager = new Manager();
         Task task1 = new Task("Приготовить обед", "Сварить суп, кашу и котлеты");
         Task task2 = new Task("Собрать коробки для переезда", "Упаковать все вещи");
         Epic epic1 = new Epic("Уборка", "Сделать генеральную уборку дома");
@@ -46,10 +43,10 @@ public class Main {
         System.out.println(manager.getTasks());
         manager.deleteEpicById(5);
         System.out.println(manager.getSubtasks());
-        System.out.println(manager.getEpics()); */
+        System.out.println(manager.getEpics());
 
 
-        Manager taskTracker = new Manager();
+       /* Manager taskTracker = new Manager();
         Epic epic1 = new Epic("Эпик 1","Нужно сделать");
         taskTracker.createEpic(epic1);
         Subtask subtask1 = new Subtask("Subtask1 создания ",
@@ -66,9 +63,7 @@ public class Main {
         taskTracker.updateSubtask(subtask2);
         System.out.println(epic1);
         subtask1.setStatus("DONE");
-        taskTracker.updateSubtask(subtask1);
-        System.out.println(epic1);
-
+        taskTracker.updateSubtask(subtask1);*/
 
     }
 }

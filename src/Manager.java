@@ -3,26 +3,17 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class Manager {
-    protected Integer currentId; // текущий идентификатор, при создании новой задачи увеличивается на 1
     protected HashMap<Integer, Task> tasks;
     protected HashMap<Integer, Subtask> subtasks;
     protected HashMap<Integer, Epic> epics;
 
     public Manager() {
-        this.currentId = 0;
         this.tasks = new HashMap<>();
         this.subtasks = new HashMap<>();
         this.epics = new HashMap<>();
     }
 
-    public Integer getCurrentId() {
-        currentId++;
-        return currentId;
-    }
-
     public Collection<Task> getTasks() {
-        // Не смогла преобразовать tasks.values() в ArrayList, поэтому возвращаю Collection
-        // И не поняла, почему храним задачи в мапе, а возвращаем список
         return tasks.values();
     }
 
@@ -79,20 +70,20 @@ public class Manager {
     }
 
     public void createTask(Task task) {
-        Integer id = getCurrentId();
+        //Integer id = getCurrentId();
         //task.setId(id);
-        tasks.put(id, task);
+        tasks.put(task.getId(), task);
     }
 
     public void createSubtask(Subtask subtask) {
-        Integer id = getCurrentId();
+        //Integer id = getCurrentId();
         //subtask.setId(id);
-        subtasks.put(id, subtask);
+        subtasks.put(subtask.getId(), subtask);
         if (!epics.isEmpty()) {
             Epic epic = epics.get(subtask.getEpicId());
             // Обновляем статус эпика
             if (epic != null) {
-                epic.getSubtasksId().add(id);
+                epic.getSubtasksId().add(subtask.getId());
                 checkAndUpdateEpicStatus(epic);
                 epics.put(epic.id, epic);
             }
@@ -100,11 +91,11 @@ public class Manager {
     }
 
     public void createEpic(Epic epic) {
-        Integer id = getCurrentId();
+        //Integer id = getCurrentId();
         //epic.setId(id);
         // Обновляем статус эпика
         checkAndUpdateEpicStatus(epic);
-        epics.put(id, epic);
+        epics.put(epic.getId(), epic);
     }
 
     public void updateTask(Task task) {
@@ -158,7 +149,11 @@ public class Manager {
 
     public void deleteEpicById(Integer id) {
         if (!epics.isEmpty()) {
-            epics.remove(id); // Непонятно по ТЗ, нужно ли при удалении эпика удалять все его сабтаски
+            ArrayList<Integer> subtasksId = epics.get(id).getSubtasksId();
+            for (Integer subtaskId : subtasksId) {
+                subtasks.remove(subtaskId); // Удаляем все сабтаски эпика
+            }
+            epics.remove(id);
         }
     }
 
