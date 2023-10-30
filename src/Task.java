@@ -4,14 +4,14 @@ public class Task {
     protected Integer id;
     protected String name;
     protected String description;
-    protected String status; // NEW, IN_PROGRESS, DONE
+    protected Status status; // NEW, IN_PROGRESS, DONE
     private static int count = 0;
 
     public Task(String name, String description) {
         this.name = name;
         this.description = description;
         this.id = generateId();
-        this.status = "NEW";
+        this.status = Status.NEW;
     }
 
     @Override
@@ -38,11 +38,11 @@ public class Task {
         return Objects.hash(name, description, id, status);
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
