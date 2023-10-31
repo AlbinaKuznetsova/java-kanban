@@ -1,8 +1,14 @@
+import managers.Managers;
+import managers.TaskManager;
+import tasks.Epic;
+import tasks.Status;
+import tasks.Subtask;
+import tasks.Task;
+
 public class Main {
 
     public static void main(String[] args) {
 
-        //InMemoryTaskManager manager = new InMemoryTaskManager();
         TaskManager manager = Managers.getDefault();
         Task task1 = new Task("Приготовить обед", "Сварить суп, кашу и котлеты");
         Task task2 = new Task("Собрать коробки для переезда", "Упаковать все вещи");
@@ -39,7 +45,7 @@ public class Main {
         System.out.println("Проверяем отображение истории просмотров");
         Task task = manager.getEpicById(3);
         task = manager.getEpicById(5);
-        System.out.println(Managers.getDefaultHistory().getHistory());
+        System.out.println(manager.getHistory());
         task = manager.getSubtaskById(6);
         task = manager.getTaskById(1);
         task = manager.getEpicById(3);
@@ -51,7 +57,7 @@ public class Main {
         task = manager.getSubtaskById(6);
         manager.deleteTaskById(1); // Удалили задачу, в истории осталась
         manager.deleteEpicById(5);
-        System.out.println(Managers.getDefaultHistory().getHistory());
+        System.out.println(manager.getHistory());
         // Проверяем удаление задач
         /*manager.deleteTaskById(1);
         System.out.println(manager.getTasks());
