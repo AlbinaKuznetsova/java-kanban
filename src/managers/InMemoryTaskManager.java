@@ -95,14 +95,10 @@ public class InMemoryTaskManager implements TaskManager {
     }
     @Override
     public void createTask(Task task) {
-        //Integer id = getCurrentId();
-        //task.setId(id);
         tasks.put(task.getId(), task);
     }
     @Override
     public void createSubtask(Subtask subtask) {
-        //Integer id = getCurrentId();
-        //subtask.setId(id);
         subtasks.put(subtask.getId(), subtask);
         if (!epics.isEmpty()) {
             Epic epic = epics.get(subtask.getEpicId());
@@ -116,8 +112,6 @@ public class InMemoryTaskManager implements TaskManager {
     }
     @Override
     public void createEpic(Epic epic) {
-        //Integer id = getCurrentId();
-        //epic.setId(id);
         // Обновляем статус эпика
         checkAndUpdateEpicStatus(epic);
         epics.put(epic.getId(), epic);
@@ -204,8 +198,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     // Вычисляем и меняем статус эпика
     private void checkAndUpdateEpicStatus(Epic epic) {
-        Boolean statusNew = true;
-        Boolean statusDone = true;
+        boolean statusNew = true;
+        boolean statusDone = true;
         if (epic.getSubtasksId() == null || epic.getSubtasksId().isEmpty()) {
             epic.setStatus(Status.NEW);
         } else {

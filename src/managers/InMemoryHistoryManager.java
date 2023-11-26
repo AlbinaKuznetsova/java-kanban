@@ -1,6 +1,5 @@
 package managers;
 
-import managers.HistoryManager;
 import tasks.Task;
 
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    //protected List<Task> taskHistory = new ArrayList<>();
     private class Node {
         private Task task;
         private Node prev;
@@ -38,12 +36,12 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
     protected ArrayList<Task> getTasks() {
         ArrayList<Task> tasks = new ArrayList<>();
-        Node node = first;
-        while(node.next != null) {
+        Node node = last;
+        while(node.prev != null) {
             tasks.add(node.task);
-            node = node.next;
+            node = node.prev;
         }
-        tasks.add(node.task); // добавили хвост в список
+        tasks.add(node.task); // добавили первый элемент в список
         return tasks;
     }
     protected void removeNode(Node node) {
@@ -67,10 +65,12 @@ public class InMemoryHistoryManager implements HistoryManager {
         linkLast(task);
         map.put(task.getId(), last);
     }
+    @Override
     public void remove(int id) {
         Node node = map.get(id);
         if (node != null) {
             removeNode(node);
+            map.remove(id);
         }
     }
     @Override

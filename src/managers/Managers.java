@@ -6,11 +6,9 @@ import managers.InMemoryTaskManager;
 
 public class Managers {
     public static TaskManager getDefault() {
-        TaskManager manager = new InMemoryTaskManager();
-        return manager;
+        return new InMemoryTaskManager();
     }
     public static HistoryManager getDefaultHistory() {
-        HistoryManager historyManager = new InMemoryHistoryManager();
-        return historyManager;
+        return new InMemoryHistoryManager();
     }
 }
