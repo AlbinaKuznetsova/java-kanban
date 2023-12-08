@@ -1,9 +1,12 @@
+import managers.FileBackedTasksManager;
 import managers.Managers;
 import managers.TaskManager;
 import tasks.Epic;
 import tasks.Status;
 import tasks.Subtask;
 import tasks.Task;
+
+import java.io.File;
 
 public class Main {
 
@@ -25,7 +28,6 @@ public class Main {
         manager.createEpic(epic2);
         manager.createSubtask(subtask2);
         manager.createSubtask(subtask3);
-
         // Проверяем вывод
         System.out.println(manager.getTasks());
         System.out.println(manager.getSubtasks());
@@ -56,10 +58,14 @@ public class Main {
         task = manager.getSubtaskById(4);
         task = manager.getEpicById(7);
         task = manager.getSubtaskById(6);
+        manager.deleteEpicById(7);
         System.out.println(manager.getHistory());
-        manager.deleteTaskById(1); // Удалили задачу
-        System.out.println(manager.getHistory());
-        manager.deleteEpicById(3);
-        System.out.println(manager.getHistory());
+        System.out.println("-----------");
+        System.out.println("Создаем новый менеджер из файла");
+        FileBackedTasksManager manager1 = FileBackedTasksManager.loadFromFile(new File("test_file.csv"));
+        System.out.println(manager1.getTasks());
+        System.out.println(manager1.getSubtasks());
+        System.out.println(manager1.getEpics());
+        System.out.println(manager1.getHistory());
     }
 }

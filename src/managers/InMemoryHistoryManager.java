@@ -37,11 +37,16 @@ public class InMemoryHistoryManager implements HistoryManager {
     protected ArrayList<Task> getTasks() {
         ArrayList<Task> tasks = new ArrayList<>();
         Node node = last;
-        while(node.prev != null) {
-            tasks.add(node.task);
-            node = node.prev;
+        try {
+            while (node.prev != null) {
+                tasks.add(node.task);
+                node = node.prev;
+            }
+            tasks.add(node.task); // добавили первый элемент в список
+
+        } catch (NullPointerException exp) {
+
         }
-        tasks.add(node.task); // добавили первый элемент в список
         return tasks;
     }
     protected void removeNode(Node node) {

@@ -16,6 +16,14 @@ public class Task {
         this.status = Status.NEW;
     }
 
+    public Task(String name, String description, int id, Status status) {
+        this.name = name;
+        this.description = description;
+        this.id = id;
+        this.status = status;
+        generateId();
+    }
+
     @Override
     public String toString() {
         return "tasks.Task{" +
@@ -50,6 +58,14 @@ public class Task {
 
     public Integer getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setId(Integer id) {
