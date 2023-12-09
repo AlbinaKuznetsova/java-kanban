@@ -7,6 +7,7 @@ public class Task {
     protected String name;
     protected String description;
     protected Status status; // NEW, IN_PROGRESS, DONE
+    protected TaskType type; //
     private static int count = 0;
 
     public Task(String name, String description) {
@@ -14,6 +15,7 @@ public class Task {
         this.description = description;
         this.id = generateId();
         this.status = Status.NEW;
+        this.type = TaskType.TASK;
     }
 
     public Task(String name, String description, int id, Status status) {
@@ -21,6 +23,7 @@ public class Task {
         this.description = description;
         this.id = id;
         this.status = status;
+        this.type = TaskType.TASK;
         generateId();
     }
 
@@ -50,6 +53,10 @@ public class Task {
 
     public Status getStatus() {
         return status;
+    }
+
+    public TaskType getType() {
+        return type;
     }
 
     public void setStatus(Status status) {
