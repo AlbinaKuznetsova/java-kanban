@@ -20,7 +20,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
     }
 
-    private Map<Integer,Node> map = new HashMap<>();
+    private Map<Integer, Node> map = new HashMap<>();
     private Node first;
     private Node last;
 
@@ -34,42 +34,48 @@ public class InMemoryHistoryManager implements HistoryManager {
             lastOld.next = last;
         }
     }
+
     protected ArrayList<Task> getTasks() {
         ArrayList<Task> tasks = new ArrayList<>();
         Node node = last;
-        try {
+        if (node != null) {
             while (node.prev != null) {
                 tasks.add(node.task);
                 node = node.prev;
             }
             tasks.add(node.task); // добавили первый элемент в список
 
-        } catch (NullPointerException exp) {
-
         }
         return tasks;
     }
+
     protected void removeNode(Node node) {
-        if (node.next == null) {
-            node.prev.next = null;
-            last = node.prev;
-        }
-        if (node.prev == null) {
-            node.next.prev = null;
-            first = node.next;
-        }
-        if (node.prev != null && node.next != null) {
-            node.prev.next = node.next;
-            node.next.prev = node.prev;
-        }
+            if (node.next == null) {
+                if (node.prev != null) {
+                    node.prev.next = null;
+                }
+                last = node.prev;
+            }
+            if (node.prev == null) {
+                if (node.next != null) {
+                    node.next.prev = null;
+                }
+                first = node.next;
+            }
+            if (node.prev != null && node.next != null) {
+                node.prev.next = node.next;
+                node.next.prev = node.prev;
+            }
 
     }
+
     @Override
     public void add(Task task) {
         remove(task.getId());
         linkLast(task);
         map.put(task.getId(), last);
     }
+
     @Override
     public void remove(int id) {
         Node node = map.get(id);
@@ -78,6 +84,7 @@ public class InMemoryHistoryManager implements HistoryManager {
             map.remove(id);
         }
     }
+
     @Override
     public List<Task> getHistory() {
         return getTasks();

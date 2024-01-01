@@ -1,7 +1,7 @@
-id,type,name,status,description,epic
-1,TASK,task1,NEW,Купить автомобиль,
-2,EPIC,new Epic1,NEW,Новый Эпик,
-3,SUBTASK,New Subtask,NEW,Подзадача,2
-4,SUBTASK,New Subtask2,NEW,Подзадача2,2
+id,type,name,status,description,duration,startTime,epic
+1,TASK,task1,NEW,Купить автомобиль,100,2023-12-01T12:00,
+2,EPIC,new Epic1,NEW,Новый Эпик,210,2023-12-19T12:00,
+3,SUBTASK,New Subtask,NEW,Подзадача,30,2023-12-19T12:00,2
+4,SUBTASK,New Subtask2,NEW,Подзадача2,180,2023-12-20T10:00,2
 
 3,2,1,

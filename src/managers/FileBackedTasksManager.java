@@ -5,9 +5,8 @@ import tasks.*;
 import java.io.*;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.Month;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
     protected File file;
@@ -19,7 +18,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     private void save() { // метод сохраняет информацию из менеджера в файл
         try (FileWriter fileWriter = new FileWriter(file, StandardCharsets.UTF_8); BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
-            bufferedWriter.write("id,type,name,status,description,epic\n");
+            bufferedWriter.write("id,type,name,status,description,duration,startTime,epic\n");
             for (Task task : getTasks()) {
                 bufferedWriter.write(CSVFormat.toString(task) + "\n");
             }
@@ -195,11 +194,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     public static void main(String[] args) {
 
         FileBackedTasksManager fileManager = new FileBackedTasksManager(new File("saveTasks2.csv"));
-        fileManager.createTask(new Task("task1", "Купить автомобиль"));
+        fileManager.createTask(new Task("task1", "Купить автомобиль", 100
+                , LocalDateTime.of(2023, Month.DECEMBER,1, 12,0, 0)));
         fileManager.createEpic(new Epic("new Epic1", "Новый Эпик"));
-        fileManager.createSubtask(new Subtask("New Subtask", "Подзадача", 2));
-        fileManager.createSubtask(new Subtask("New Subtask2", "Подзадача2", 2));
-        fileManager.getTask(1);
+        fileManager.createSubtask(new Subtask("New Subtask", "Подзадача", 2, 30
+                , LocalDateTime.of(2023, Month.DECEMBER,19, 12,0, 0)));
+        fileManager.createSubtask(new Subtask("New Subtask2", "Подзадача2", 2, 180
+                , LocalDateTime.of(2023, Month.DECEMBER,20, 10,0, 0)));
+        fileManager.getTaskById(1);
         fileManager.getEpicById(2);
         fileManager.getSubtaskById(3);
         System.out.println(fileManager.getTasks());
@@ -210,7 +212,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         FileBackedTasksManager fileBackedTasksManager = loadFromFile(new File("saveTasks2.csv"));
         System.out.println(fileBackedTasksManager.getTasks());
         System.out.println(fileBackedTasksManager.getEpics());
-        System.out.println(fileManager.getSubtasks());
+        System.out.println(fileBackedTasksManager.getSubtasks());
         System.out.println(fileBackedTasksManager.getHistory());
     }
 }
