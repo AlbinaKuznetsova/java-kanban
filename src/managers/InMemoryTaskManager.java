@@ -13,29 +13,13 @@ public class InMemoryTaskManager implements TaskManager {
     protected HashMap<Integer, Subtask> subtasks;
     protected HashMap<Integer, Epic> epics;
     protected HistoryManager historyManager = Managers.getDefaultHistory();
-    TreeSet<Task> prioritizedTasks;
+    protected TreeSet<Task> prioritizedTasks;
 
     public InMemoryTaskManager() {
         this.tasks = new HashMap<>();
         this.subtasks = new HashMap<>();
         this.epics = new HashMap<>();
-        Comparator<Task> taskComparator = new Comparator<Task>() {
-            @Override
-            public int compare(Task o1, Task o2) {
-                if (o1.getStartTime() == null && o2.getStartTime() == null) {
-                    return o1.getId().compareTo(o2.getId());
-                }
-                if (o1.getStartTime() == null) {
-                    return 1;
-                } else if (o2.getStartTime() == null) {
-                    return -1;
-                } else if (o1.getStartTime().equals(o2.getStartTime())) {
-                    return o1.getId().compareTo(o2.getId());
-                } else {
-                    return o1.getStartTime().compareTo(o2.getStartTime());
-                }
-            }
-        };
+        TaskComparator taskComparator = new TaskComparator();
         this.prioritizedTasks = new TreeSet<>(taskComparator);
     }
 

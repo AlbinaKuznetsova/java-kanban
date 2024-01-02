@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Epic extends Task {
     private ArrayList<Integer> subtasksId; // Список id подзадач эпика
-    LocalDateTime endTime;
+    private LocalDateTime endTime;
 
     public Epic(String name, String description) {
         super(name, description);
