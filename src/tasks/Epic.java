@@ -20,6 +20,12 @@ public class Epic extends Task {
         this.type = TaskType.EPIC;
     }
 
+    public Epic(String name, String description, int id, Status status, Integer duration, LocalDateTime startTime, ArrayList<Integer> subtasksId) {
+        super(name, description, id, status, duration, startTime);
+        this.subtasksId = subtasksId;
+        this.type = TaskType.EPIC;
+    }
+
     @Override
     public String toString() {
         return "tasks.Epic{" +
@@ -65,5 +71,8 @@ public class Epic extends Task {
     }
     public void setDuration(Integer duration) {
         this.duration = duration;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

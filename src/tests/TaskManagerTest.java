@@ -370,7 +370,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void getEpicsSubtasks() {
         Epic epic = new Epic("new Epic1", "Новый Эпик");
-        assertEquals(0, taskManager.getEpicsSubtasks(epic).size(), "Неверное количество задач.");
+        assertEquals(0, taskManager.getEpicsSubtasks(epic.getId()).size(), "Неверное количество задач.");
         Subtask subtask1 = new Subtask("Task1", "Task1 description", epic.getId(), 60
                 , LocalDateTime.of(2023, Month.DECEMBER, 20, 12, 0, 0));
         Subtask subtask2 = new Subtask("Task2", "Task2 description", epic.getId(), 60
@@ -378,13 +378,13 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.createEpic(epic);
         taskManager.createSubtask(subtask1);
         taskManager.createSubtask(subtask2);
-        List<Subtask> subtasks = taskManager.getEpicsSubtasks(epic);
+        List<Subtask> subtasks = taskManager.getEpicsSubtasks(epic.getId());
         assertEquals(2, subtasks.size(), "Неверное количество задач.");
         assertTrue(subtasks.contains(subtask1));
         assertTrue(subtasks.contains(subtask2));
 
         taskManager.deleteEpicById(epic.getId()); // Проверяем удаление сабтасков при удалении эпика
-        subtasks = taskManager.getEpicsSubtasks(epic);
+        subtasks = taskManager.getEpicsSubtasks(epic.getId());
         assertEquals(0, subtasks.size(), "Неверное количество задач.");
     }
 

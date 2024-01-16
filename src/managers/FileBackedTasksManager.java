@@ -15,8 +15,12 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         super();
         this.file = file;
     }
+    public FileBackedTasksManager() {
+        super();
+        this.file = null;
+    }
 
-    private void save() { // метод сохраняет информацию из менеджера в файл
+    protected void save() { // метод сохраняет информацию из менеджера в файл
         try (FileWriter fileWriter = new FileWriter(file, StandardCharsets.UTF_8); BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
             bufferedWriter.write("id,type,name,status,description,duration,startTime,epic\n");
             for (Task task : getTasks()) {
@@ -33,7 +37,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         } catch (IOException exp) {
             throw new ManagerSaveException("Произошла ошибка записи в файл");
         } catch (Exception exp) {
-            System.out.println(exp.getMessage());
+
         }
     }
 
@@ -61,7 +65,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return manager;
     }
 
-    private void addTask(Task task) {
+    protected void addTask(Task task) {
         switch (task.getType()) {
             case TASK:
                 super.createTask(task);
@@ -75,7 +79,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
     }
 
-    private void getTask(Integer id) { // получаем таск по id, чтобы восстановить историю
+    protected void getTask(Integer id) { // получаем таск по id, чтобы восстановить историю
         Task task = null;
         try {
             task = super.getTaskById(id);
@@ -84,14 +88,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
         if (task == null) {
             try {
-                super.getSubtaskById(id);
+                task = super.getSubtaskById(id);
             } catch (NullPointerException exp) {
 
             }
         }
         if (task == null) {
             try {
-                super.getEpicById(id);
+                task = super.getEpicById(id);
             } catch (NullPointerException exp) {
 
             }
