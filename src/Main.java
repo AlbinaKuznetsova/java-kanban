@@ -11,9 +11,9 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            new KVServer().start();
+            HttpTaskServer server = new HttpTaskServer();
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+
         }
         HttpTaskManager manager = (HttpTaskManager) Managers.getDefault();
         manager.createTask(new Task("task1", "Купить автомобиль", 100

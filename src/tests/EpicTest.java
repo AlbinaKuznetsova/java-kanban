@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class EpicTest {
     TaskManager fileManager;
-    Epic epic;
     Subtask subtask1;
     Subtask subtask2;
     int epicId;

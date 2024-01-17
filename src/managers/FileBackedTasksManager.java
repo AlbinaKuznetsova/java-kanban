@@ -37,7 +37,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         } catch (IOException exp) {
             throw new ManagerSaveException("Произошла ошибка записи в файл");
         } catch (Exception exp) {
-
+            System.out.println(exp.getMessage());
         }
     }
 
@@ -84,20 +84,20 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         try {
             task = super.getTaskById(id);
         } catch (NullPointerException exp) {
-
+            System.out.println(exp.getMessage());
         }
         if (task == null) {
             try {
                 task = super.getSubtaskById(id);
             } catch (NullPointerException exp) {
-
+                System.out.println(exp.getMessage());
             }
         }
         if (task == null) {
             try {
                 task = super.getEpicById(id);
             } catch (NullPointerException exp) {
-
+                System.out.println(exp.getMessage());
             }
         }
     }

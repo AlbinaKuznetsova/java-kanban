@@ -62,7 +62,7 @@ public class HttpTaskServer {
                     response = gson.toJson(manager.getPrioritizedTasks());
                     httpExchange.sendResponseHeaders(200, 0);
                 } else if (path.length == 3 && method.equals("POST") && path[2].equals("task")) {
-                    Task task = taskFromJson(path, body, id);
+                    Task task = taskFromJson(body, id);
                     if (id != 0) { //Обновляем таск
                         System.out.println("Запрос на обновление таска " + id);
                         manager.updateTask(task);
@@ -72,7 +72,7 @@ public class HttpTaskServer {
                     }
                     httpExchange.sendResponseHeaders(200, 0);
                 } else if (path.length == 3 && method.equals("POST") && path[2].equals("subtask")) {
-                    Subtask subtask = subtaskFromJson(path, body, id);
+                    Subtask subtask = subtaskFromJson(body, id);
                     if (id != 0) { //Обновляем таск
                         System.out.println("Запрос на обновление сабтаска " + id);
                         manager.updateSubtask(subtask);
@@ -82,7 +82,7 @@ public class HttpTaskServer {
                     }
                     httpExchange.sendResponseHeaders(200, 0);
                 } else if (path.length == 3 && method.equals("POST") && path[2].equals("epic")) {
-                    Epic epic = epicFromJson(path, body, id);
+                    Epic epic = epicFromJson(body, id);
                     if (id != 0) { //Обновляем таск
                         System.out.println("Запрос на обновление эпика " + id);
                         manager.updateEpic(epic);
@@ -174,8 +174,8 @@ public class HttpTaskServer {
             return id;
         }
 
-        private Task taskFromJson(String[] path, String body, int id) {
-            Task task;
+        private Task taskFromJson(String body, int id) {
+            Task task = null;
             String name = "";
             String description = "";
             String status = "";
@@ -186,39 +186,41 @@ public class HttpTaskServer {
             if (element.isJsonObject()) {
                 taskObject = element.getAsJsonObject();
             }
-            if (id == 0) {
-                if (taskObject.get("id") != null) {
-                    id = taskObject.get("id").getAsInt();
+            if (taskObject != null) {
+                if (id == 0) {
+                    if (taskObject.get("id") != null) {
+                        id = taskObject.get("id").getAsInt();
+                    }
                 }
-            }
-            if (taskObject.get("name") != null) {
-                name = taskObject.get("name").getAsString();
-            }
-            if (taskObject.get("description") != null) {
-                description = taskObject.get("description").getAsString();
-            }
-            if (taskObject.get("status") != null) {
-                status = taskObject.get("status").getAsString();
-            }
-            if (taskObject.get("duration") != null) {
-                duration = taskObject.get("duration").getAsInt();
-            }
-            if (taskObject.get("startTime") != null) {
-                JsonObject date = taskObject.get("startTime").getAsJsonObject().get("date").getAsJsonObject();
-                JsonObject time = taskObject.get("startTime").getAsJsonObject().get("time").getAsJsonObject();
-                startTime = LocalDateTime.of(date.get("year").getAsInt(), date.get("month").getAsInt(), date.get("day").getAsInt()
-                        , time.get("hour").getAsInt(), time.get("minute").getAsInt(), time.get("second").getAsInt());
-            }
-            if (id != 0) {
-                task = new Task(name, description, id, Status.valueOf(status), duration, startTime);
-            } else {
-                task = new Task(name, description, duration, startTime);
+                if (taskObject.get("name") != null) {
+                    name = taskObject.get("name").getAsString();
+                }
+                if (taskObject.get("description") != null) {
+                    description = taskObject.get("description").getAsString();
+                }
+                if (taskObject.get("status") != null) {
+                    status = taskObject.get("status").getAsString();
+                }
+                if (taskObject.get("duration") != null) {
+                    duration = taskObject.get("duration").getAsInt();
+                }
+                if (taskObject.get("startTime") != null) {
+                    JsonObject date = taskObject.get("startTime").getAsJsonObject().get("date").getAsJsonObject();
+                    JsonObject time = taskObject.get("startTime").getAsJsonObject().get("time").getAsJsonObject();
+                    startTime = LocalDateTime.of(date.get("year").getAsInt(), date.get("month").getAsInt(), date.get("day").getAsInt()
+                            , time.get("hour").getAsInt(), time.get("minute").getAsInt(), time.get("second").getAsInt());
+                }
+                if (id != 0) {
+                    task = new Task(name, description, id, Status.valueOf(status), duration, startTime);
+                } else {
+                    task = new Task(name, description, duration, startTime);
+                }
             }
             return task;
         }
 
-        private Epic epicFromJson(String[] path, String body, int id) {
-            Epic epic;
+        private Epic epicFromJson(String body, int id) {
+            Epic epic = null;
             String name = "";
             String description = "";
             String status = "";
@@ -230,44 +232,46 @@ public class HttpTaskServer {
             if (element.isJsonObject()) {
                 taskObject = element.getAsJsonObject();
             }
-            if (id == 0) {
-                if (taskObject.get("id") != null) {
-                    id = taskObject.get("id").getAsInt();
+            if (taskObject != null) {
+                if (id == 0) {
+                    if (taskObject.get("id") != null) {
+                        id = taskObject.get("id").getAsInt();
+                    }
                 }
-            }
-            if (taskObject.get("name") != null) {
-                name = taskObject.get("name").getAsString();
-            }
-            if (taskObject.get("description") != null) {
-                description = taskObject.get("description").getAsString();
-            }
-            if (taskObject.get("status") != null) {
-                status = taskObject.get("status").getAsString();
-            }
-            if (taskObject.get("duration") != null) {
-                duration = taskObject.get("duration").getAsInt();
-            }
-            if (taskObject.get("subtasksId") != null) {
-                for (int i = 0; i < taskObject.get("subtasksId").getAsJsonArray().size(); i++) {
-                    subtasksId.add(taskObject.get("subtasksId").getAsJsonArray().get(i).getAsInt());
+                if (taskObject.get("name") != null) {
+                    name = taskObject.get("name").getAsString();
                 }
-            }
-            if (taskObject.get("startTime") != null) {
-                JsonObject date = taskObject.get("startTime").getAsJsonObject().get("date").getAsJsonObject();
-                JsonObject time = taskObject.get("startTime").getAsJsonObject().get("time").getAsJsonObject();
-                startTime = LocalDateTime.of(date.get("year").getAsInt(), date.get("month").getAsInt(), date.get("day").getAsInt()
-                        , time.get("hour").getAsInt(), time.get("minute").getAsInt(), time.get("second").getAsInt());
-            }
-            if (id != 0) {
-                epic = new Epic(name, description, id, Status.valueOf(status), duration, startTime, subtasksId);
-            } else {
-                epic = new Epic(name, description);
+                if (taskObject.get("description") != null) {
+                    description = taskObject.get("description").getAsString();
+                }
+                if (taskObject.get("status") != null) {
+                    status = taskObject.get("status").getAsString();
+                }
+                if (taskObject.get("duration") != null) {
+                    duration = taskObject.get("duration").getAsInt();
+                }
+                if (taskObject.get("subtasksId") != null) {
+                    for (int i = 0; i < taskObject.get("subtasksId").getAsJsonArray().size(); i++) {
+                        subtasksId.add(taskObject.get("subtasksId").getAsJsonArray().get(i).getAsInt());
+                    }
+                }
+                if (taskObject.get("startTime") != null) {
+                    JsonObject date = taskObject.get("startTime").getAsJsonObject().get("date").getAsJsonObject();
+                    JsonObject time = taskObject.get("startTime").getAsJsonObject().get("time").getAsJsonObject();
+                    startTime = LocalDateTime.of(date.get("year").getAsInt(), date.get("month").getAsInt(), date.get("day").getAsInt()
+                            , time.get("hour").getAsInt(), time.get("minute").getAsInt(), time.get("second").getAsInt());
+                }
+                if (id != 0) {
+                    epic = new Epic(name, description, id, Status.valueOf(status), duration, startTime, subtasksId);
+                } else {
+                    epic = new Epic(name, description);
+                }
             }
             return epic;
         }
 
-        private Subtask subtaskFromJson(String[] path, String body, int id) {
-            Subtask subtask;
+        private Subtask subtaskFromJson(String body, int id) {
+            Subtask subtask = null;
             String name = "";
             String description = "";
             String status = "";
@@ -279,36 +283,38 @@ public class HttpTaskServer {
             if (element.isJsonObject()) {
                 taskObject = element.getAsJsonObject();
             }
-            if (id == 0) {
-                if (taskObject.get("id") != null) {
-                    id = taskObject.get("id").getAsInt();
+            if (taskObject != null) {
+                if (id == 0) {
+                    if (taskObject.get("id") != null) {
+                        id = taskObject.get("id").getAsInt();
+                    }
                 }
-            }
-            if (taskObject.get("name") != null) {
-                name = taskObject.get("name").getAsString();
-            }
-            if (taskObject.get("description") != null) {
-                description = taskObject.get("description").getAsString();
-            }
-            if (taskObject.get("status") != null) {
-                status = taskObject.get("status").getAsString();
-            }
-            if (taskObject.get("duration") != null) {
-                duration = taskObject.get("duration").getAsInt();
-            }
-            if (taskObject.get("epicId") != null) {
-                epicId = taskObject.get("epicId").getAsInt();
-            }
-            if (taskObject.get("startTime") != null) {
-                JsonObject date = taskObject.get("startTime").getAsJsonObject().get("date").getAsJsonObject();
-                JsonObject time = taskObject.get("startTime").getAsJsonObject().get("time").getAsJsonObject();
-                startTime = LocalDateTime.of(date.get("year").getAsInt(), date.get("month").getAsInt(), date.get("day").getAsInt()
-                        , time.get("hour").getAsInt(), time.get("minute").getAsInt(), time.get("second").getAsInt());
-            }
-            if (id != 0) {
-                subtask = new Subtask(name, description, epicId, id, Status.valueOf(status), duration, startTime);
-            } else {
-                subtask = new Subtask(name, description, epicId, duration, startTime);
+                if (taskObject.get("name") != null) {
+                    name = taskObject.get("name").getAsString();
+                }
+                if (taskObject.get("description") != null) {
+                    description = taskObject.get("description").getAsString();
+                }
+                if (taskObject.get("status") != null) {
+                    status = taskObject.get("status").getAsString();
+                }
+                if (taskObject.get("duration") != null) {
+                    duration = taskObject.get("duration").getAsInt();
+                }
+                if (taskObject.get("epicId") != null) {
+                    epicId = taskObject.get("epicId").getAsInt();
+                }
+                if (taskObject.get("startTime") != null) {
+                    JsonObject date = taskObject.get("startTime").getAsJsonObject().get("date").getAsJsonObject();
+                    JsonObject time = taskObject.get("startTime").getAsJsonObject().get("time").getAsJsonObject();
+                    startTime = LocalDateTime.of(date.get("year").getAsInt(), date.get("month").getAsInt(), date.get("day").getAsInt()
+                            , time.get("hour").getAsInt(), time.get("minute").getAsInt(), time.get("second").getAsInt());
+                }
+                if (id != 0) {
+                    subtask = new Subtask(name, description, epicId, id, Status.valueOf(status), duration, startTime);
+                } else {
+                    subtask = new Subtask(name, description, epicId, duration, startTime);
+                }
             }
             return subtask;
         }

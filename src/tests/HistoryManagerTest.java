@@ -14,11 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class HistoryManagerTest {
-    TaskManager manager;
     HistoryManager historyManager;
     @BeforeEach
     void beforeEach(){
-        TaskManager manager = new InMemoryTaskManager();
         historyManager = new InMemoryHistoryManager();
     }
     @Test

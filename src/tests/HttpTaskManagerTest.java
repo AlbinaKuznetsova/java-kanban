@@ -3,7 +3,6 @@ package tests;
 import managers.HttpTaskManager;
 import managers.KVServer;
 import managers.KVTaskClient;
-import managers.Managers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,6 @@ import tasks.Subtask;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.File;
 import java.time.LocalDateTime;
 import java.time.Month;
 

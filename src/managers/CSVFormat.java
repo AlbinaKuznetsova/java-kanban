@@ -9,13 +9,12 @@ import java.util.List;
 
 public class CSVFormat {
     public static String toString(Task task) {
-        TaskType type = null;
         String epicId = "";
         if (task.getType() == TaskType.SUBTASK) {
             try {
                 epicId = ((Subtask) task).getEpicId().toString();
             } catch (NullPointerException exp) {
-
+                System.out.println(exp.getMessage());
             }
         }
         return task.getId() + "," + task.getType() + "," + task.getName() + "," + task.getStatus() + "," +
@@ -41,7 +40,7 @@ public class CSVFormat {
         try {
             startTime = LocalDateTime.parse(values[6]);
         } catch (Exception ex) {
-
+            System.out.println(ex.getMessage());
         }
         if (values[1].equals(TaskType.TASK.toString())) {
             task = new Task(values[2], values[4], Integer.parseInt(values[0]), Status.valueOf(values[3]), Integer.parseInt(values[5]), startTime);

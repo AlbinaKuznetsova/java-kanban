@@ -26,7 +26,7 @@ public class KVTaskClient {
             }
         } catch (Exception ex) {
             this.apiToken = "";
-            System.out.println(ex.getStackTrace());
+            System.out.println(ex.getMessage());
         }
     }
 
@@ -46,7 +46,7 @@ public class KVTaskClient {
             }
         } catch (Exception ex) {
             this.apiToken = "";
-            System.out.println(ex.getStackTrace());
+            System.out.println(ex.getMessage());
         }
     }
 
